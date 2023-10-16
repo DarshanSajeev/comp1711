@@ -22,6 +22,4 @@ int main(){
             printf("Enter a number between 0 and 100\n");
         }
     }
-    
-    
 }
