@@ -23,4 +23,5 @@ int main(){
 
         default: printf("Pick a number between 1 and 5\n");
     }
+    return 0;
 }
