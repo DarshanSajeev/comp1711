@@ -9,5 +9,5 @@ char concatStrings(char string1, char string2)
 
 int main()
 {
-    printf(concatStrings("Hello ",char "World"));
+    printf(concatStrings("Hello ", "World"));
 }
