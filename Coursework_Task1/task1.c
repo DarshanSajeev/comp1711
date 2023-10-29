@@ -10,7 +10,7 @@ typedef struct {
 } FITNESS_DATA;
 
 // Define any additional variables here
-
+int noOfRecords = 0;
 
 
 // This is your helper function. Do not change it in any way.
@@ -52,11 +52,11 @@ FILE *open_file(char filename[], char mode[])
     return file;
 }
 
-int main() 
+int main(int noOfRecords) 
 {
-    char filename [] = "FitnessData_2023";
-    char *stringsteps;
-    int *steps;
+    char filename [] = "FitnessData_2023.csv";
+    char stringsteps[10];
+    
     FILE *file = open_file(filename, "r");
     FITNESS_DATA data;
 
@@ -64,13 +64,17 @@ int main()
     char line_buffer[buffer_size];
     while (fgets(line_buffer, buffer_size, file) != NULL)
     {
-        stringsteps = atoi(data.steps);
-        tokeniseRecord(line_buffer, ",", data.date, data.time, *stringsteps);
+        tokeniseRecord(line_buffer, ",", data.date, data.time, stringsteps);
+        noOfRecords += 1;
+        //printf("Date: %s\n", data.date);
+        //printf("Time: %s\n", data.time);
+        //printf("Steps: %s\n", stringsteps);
+        if (noOfRecords <= 4)
+        {
+            printf("%s,%s,%s", data.date, data.time, stringsteps);
+        }
     }
-    
-    printf("Date: %s\n", data.date);
-    printf("Time: %s\n", data.time);
-    printf("Steps: %s\n", stringsteps);
+    printf("Number of Records in this file: %d\n",noOfRecords - 1);
     
     fclose(file);
     return 0;
