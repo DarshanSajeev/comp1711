@@ -66,12 +66,9 @@ int main(int noOfRecords)
     {
         tokeniseRecord(line_buffer, ",", data.date, data.time, stringsteps);
         noOfRecords += 1;
-        //printf("Date: %s\n", data.date);
-        //printf("Time: %s\n", data.time);
-        //printf("Steps: %s\n", stringsteps);
         if (noOfRecords <= 4)
         {
-            printf("%s,%s,%s", data.date, data.time, stringsteps);
+            printf("%s/%s/%d\n", data.date, data.time, atoi(stringsteps));
         }
     }
     printf("Number of Records in this file: %d\n",noOfRecords - 1);
