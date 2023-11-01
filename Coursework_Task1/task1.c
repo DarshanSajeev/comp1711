@@ -64,14 +64,31 @@ int main(int noOfRecords)
     char line_buffer[buffer_size];
     while (fgets(line_buffer, buffer_size, file) != NULL)
     {
-        tokeniseRecord(line_buffer, ",", data.date, data.time, stringsteps);
         noOfRecords += 1;
-        if (noOfRecords <= 4)
+    }
+
+    printf("Number of records in file: %d\n",noOfRecords - 1);
+
+    stringsteps[10];
+    
+    file = open_file(filename, "r");
+    data;
+
+    buffer_size = 100;
+    line_buffer[buffer_size];
+
+    int count = 0;
+    while (fgets(line_buffer, buffer_size, file) != NULL)
+    {
+        if(count < 3)
         {
+            FITNESS_DATA data;
+
+            tokeniseRecord(line_buffer, ",", data.date, data.time, stringsteps);
             printf("%s/%s/%d\n", data.date, data.time, atoi(stringsteps));
+            count += 1;
         }
     }
-    printf("Number of Records in this file: %d\n",noOfRecords - 1);
     
     fclose(file);
     return 0;
