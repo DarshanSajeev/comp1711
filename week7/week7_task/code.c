@@ -24,6 +24,8 @@ int main()
     float highest = 0;
     float lowest = 1000000;
     char month;
+    float range;
+    float median;
 
     while (1)
     {
@@ -128,7 +130,7 @@ int main()
         case 'E':
         case 'e':
             printf("What is the month? ");
-            scanf("%c", &month);
+            scanf("%c\n", &month);
 
             while (fgets(line, buffer_size, input))
             {
@@ -141,7 +143,7 @@ int main()
                 }
                 counter++;
                 
-                printf("%s",&daily_readings[counter].date);
+                printf("%s",daily_readings[counter].date);
                 if (strstr(daily_readings[counter].date, &month) != NULL)
                 {
                     printf("%s",daily_readings[counter].date);
@@ -152,7 +154,33 @@ int main()
 
         case 'F':
         case 'f':
-            return 0;
+            while (fgets(line, buffer_size, input))
+            {
+                // split up the line and store it in the right place
+               // using the & operator to pass in a pointer to the bloodIron so it stores it
+                tokeniseRecord(line, ",", daily_readings[counter].date, &daily_readings[counter].bloodIron);
+                if (lowest > daily_readings[counter].bloodIron)
+                {
+                    lowest = daily_readings[counter].bloodIron;
+                }
+                else if (highest < daily_readings[counter].bloodIron)
+                {
+                    highest = daily_readings[counter].bloodIron;
+                }
+                counter++;
+            }
+
+            while (fgets(line, buffer_size, input))
+            {
+                median = daily_readings[counter].bloodIron;
+            }
+
+            range = highest - lowest;
+            printf("Your range in blood iron was %.2f\n", range);
+
+
+            fclose(input);
+
             break;
 
         case 'G':
