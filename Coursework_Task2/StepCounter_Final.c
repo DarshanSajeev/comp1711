@@ -9,7 +9,9 @@
 // Global variables for filename and FITNESS_DATA array
 int buffer_size = 100;
 char choice;
-int counter;
+int counter = 0;
+char stringsteps[10];
+FITNESS_DATA data;
 
 // This is your helper function. Do not change it in any way.
 // Inputs: character array representing a row; the delimiter character
@@ -94,12 +96,17 @@ int main() {
 
         case 'B':
         case 'b':
-            while (fgets(line, buffer_size, filename) != NULL)
+            counter = 0;
+        
+            while (fgets(line, buffer_size, input) != NULL)
             {
-                noOfRecords += 1;
+                // split up the line and store it in the right place
+                // using the & operator to pass in a pointer to the bloodIron so it stores it
+                tokeniseRecord(line, ",", data[counter].date, &data[counter].time, &data[counter].steps);
+                counter ++;
             }
 
-            printf("Number of records in file: %d\n",noOfRecords - 1);
+            printf("Number of records in file: %d\n",counter - 1);
             break;
 
         case 'C':
