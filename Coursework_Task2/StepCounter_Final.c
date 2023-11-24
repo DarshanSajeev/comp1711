@@ -11,7 +11,7 @@ int buffer_size = 100;
 char choice;
 int counter = 0;
 char stringsteps[10];
-FITNESS_DATA data;
+FITNESS_DATA data[100];
 
 // This is your helper function. Do not change it in any way.
 // Inputs: character array representing a row; the delimiter character
