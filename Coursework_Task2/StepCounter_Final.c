@@ -97,12 +97,13 @@ int main() {
         case 'B':
         case 'b':
             counter = 0;
+            stringsteps[10];
         
             while (fgets(line, buffer_size, input) != NULL)
             {
                 // split up the line and store it in the right place
                 // using the & operator to pass in a pointer to the bloodIron so it stores it
-                tokeniseRecord(line, ",", data[counter].date, &data[counter].time, &data[counter].steps);
+                // tokeniseRecord(line, ",", data[counter].date, data[counter].time, stringsteps);
                 counter ++;
             }
 
@@ -111,6 +112,18 @@ int main() {
 
         case 'C':
         case 'c':
+            stringsteps[10];
+            int lowest = 10000;
+            while (fgets(line, buffer_size, input) != NULL)
+            {
+                // split up the line and store it in the right place
+                // using the & operator to pass in a pointer to the bloodIron so it stores it
+                tokeniseRecord(line, ",", data[counter].date, data[counter].time, stringsteps);
+                int steps = atoi(stringsteps);
+                if (lowest < steps){
+                    printf("%d",steps);
+                }
+            }
             break;
 
         case 'D':
