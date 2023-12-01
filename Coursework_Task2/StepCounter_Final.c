@@ -1,3 +1,5 @@
+//FitnessData_2023.csv
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -46,7 +48,7 @@ int main() {
     int buffer_size = 100;
     char line[buffer_size];
     char filename[buffer_size];
-    int stringsteps[10];
+    char stringsteps[10];
 
     while (1)
     {
@@ -93,7 +95,7 @@ int main() {
                 return 1;
             }
             else{
-                printf("File successfully loaded.");
+                printf("File successfully loaded.\n");
             }
             break;
 
@@ -103,9 +105,6 @@ int main() {
         
             while (fgets(line, buffer_size, input) != NULL)
             {
-                // split up the line and store it in the right place
-                // using the & operator to pass in a pointer to the bloodIron so it stores it
-                // tokeniseRecord(line, ",", data[counter].date, data[counter].time, stringsteps);
                 counter ++;
             }
 
@@ -117,14 +116,19 @@ int main() {
             buffer_size = 100;
             line[buffer_size];
             stringsteps;
+            int lowest = 10000000;
         
             while (fgets(line, buffer_size, input) != NULL)
             {
                 FITNESS_DATA data;
 
                 tokeniseRecord(line, ",", data.date, data.time, stringsteps);
-                printf("%s/%s/%d\n", data.date, data.time, atoi(stringsteps));
+                if (atoi(stringsteps) < lowest)
+                {
+                    lowest = atoi(stringsteps);
+                }
             }
+            printf("Lowest steps %d\n", lowest);
             break;
 
         case 'D':
