@@ -7,7 +7,6 @@
 
 // Define any additional variables here
 // Global variables for filename and FITNESS_DATA array
-int buffer_size = 100;
 char choice;
 int counter = 0;
 char stringsteps[10];
@@ -44,8 +43,10 @@ void tokeniseRecord(const char *input, const char *delimiter,
 
 // Complete the main function
 int main() {
+    int buffer_size = 100;
     char line[buffer_size];
     char filename[buffer_size];
+    int stringsteps[10];
 
     while (1)
     {
@@ -91,13 +92,14 @@ int main() {
                 printf("Error: File could not be opened\n");
                 return 1;
             }
-            
+            else{
+                printf("File successfully loaded.");
+            }
             break;
 
         case 'B':
         case 'b':
             counter = 0;
-            stringsteps[10];
         
             while (fgets(line, buffer_size, input) != NULL)
             {
@@ -107,27 +109,27 @@ int main() {
                 counter ++;
             }
 
-            printf("Number of records in file: %d\n",counter - 1);
+            printf("Number of records in file: %d\n",counter);
             break;
 
         case 'C':
         case 'c':
-            stringsteps[10];
-            int lowest = 10000;
+            buffer_size = 100;
+            line[buffer_size];
+            stringsteps;
+        
             while (fgets(line, buffer_size, input) != NULL)
             {
-                // split up the line and store it in the right place
-                // using the & operator to pass in a pointer to the bloodIron so it stores it
-                tokeniseRecord(line, ",", data[counter].date, data[counter].time, stringsteps);
-                int steps = atoi(stringsteps);
-                if (lowest < steps){
-                    printf("%d",steps);
-                }
+                FITNESS_DATA data;
+
+                tokeniseRecord(line, ",", data.date, data.time, stringsteps);
+                printf("%s/%s/%d\n", data.date, data.time, atoi(stringsteps));
             }
             break;
 
         case 'D':
         case 'd':
+            
             break;
 
         case 'E':
@@ -145,11 +147,12 @@ int main() {
 
         case 'Q':
         case 'q':
+            return 0;
             break;
 
         // if they type anything else:
         default:
-            printf("Invalid choice\n");
+            printf("Invalid choice. Try again.\n");
             break;
         }
     }
