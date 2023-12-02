@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "FitnessDataStruct.h"
+#include <math.h>
 
 // Struct moved to header file
 
@@ -13,6 +14,8 @@ char choice;
 int counter = 0;
 char stringsteps[10];
 FITNESS_DATA data[100];
+int buffer_size = 100;
+float mean = 0;;
 
 // This is your helper function. Do not change it in any way.
 // Inputs: character array representing a row; the delimiter character
@@ -45,10 +48,6 @@ void tokeniseRecord(const char *input, const char *delimiter,
 
 // Complete the main function
 int main() {
-    int buffer_size = 100;
-    char line[buffer_size];
-    char filename[buffer_size];
-    char stringsteps[10];
 
     while (1)
     {
@@ -117,18 +116,23 @@ int main() {
             line[buffer_size];
             stringsteps;
             int lowest = 10000000;
+            char time_output[11];
+            char date_output[6];
         
             while (fgets(line, buffer_size, input) != NULL)
             {
                 FITNESS_DATA data;
 
                 tokeniseRecord(line, ",", data.date, data.time, stringsteps);
+                printf("%s",data.date);
                 if (atoi(stringsteps) < lowest)
                 {
                     lowest = atoi(stringsteps);
+                    // date_output = data.date;
+                    // time_output = data.time;
                 }
             }
-            printf("Lowest steps %d\n", lowest);
+            printf("Fewest steps:  %s %s\n", date_output, time_output);
             break;
 
         case 'D':
@@ -138,11 +142,25 @@ int main() {
 
         case 'E':
         case 'e':
+            mean = 0;
+            counter = 0;
+
+            while (fgets(line, buffer_size, input) != NULL)
+            {
+                FITNESS_DATA data;
+
+                tokeniseRecord(line, ",", data.date, data.time, stringsteps);
+                mean += atoi(stringsteps);
+                counter ++;
+            }
+
+            mean = mean/counter;
+            printf("Mean step count: %.0f\n", mean);
             break;
 
         case 'F':
         case 'f':
-
+            
             break;
 
         case 'G':
