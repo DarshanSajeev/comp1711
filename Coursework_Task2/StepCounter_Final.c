@@ -15,7 +15,9 @@ int counter = 0;
 char stringsteps[10];
 FITNESS_DATA data[100];
 int buffer_size = 100;
-float mean = 0;;
+float mean = 0;
+int u = 0;
+int w=0;
 
 // This is your helper function. Do not change it in any way.
 // Inputs: character array representing a row; the delimiter character
@@ -112,27 +114,37 @@ int main() {
 
         case 'C':
         case 'c':
-            buffer_size = 100;
-            line[buffer_size];
-            stringsteps;
-            int lowest = 10000000;
-            char time_output[11];
-            char date_output[6];
-        
-            while (fgets(line, buffer_size, input) != NULL)
-            {
-                FITNESS_DATA data;
+            int lowest=0;
+            while(fgets(line, 100, input)) {
+                tokeniseRecord(line, ",", data.date, data.times, stringsteps);
+                w += 1;
 
-                tokeniseRecord(line, ",", data.date, data.time, stringsteps);
-                printf("%s",data.date);
-                if (atoi(stringsteps) < lowest)
-                {
-                    lowest = atoi(stringsteps);
-                    // date_output = data.date;
-                    // time_output = data.time;
+                bit.steps = atoi(stringsteps); 
+                strcpy(bit.time, data.time);
+                strcpy(bit.date, data.date);
+                if (w==1) {
+                    lowest=bit.steps;
+                }
+                if (bit.steps<lowest) {
+                    
+                    lowest=bit.steps;
+                    t = w;
                 }
             }
-            printf("Fewest steps:  %s %s\n", date_output, time_output);
+            fclose(fptr);
+
+            fptr = fopen(filename, "r");
+            while(fgets(myString, 100, fptr)) {
+                u+=1;
+                tokeniseRecord(myString, ",", datez, timez, stepz);
+                if (u==t) {
+                    printf("Fewest steps: %s %s\n", datez, timez);
+                }
+            }
+
+
+
+            fclose(fptr);
             break;
 
         case 'D':
