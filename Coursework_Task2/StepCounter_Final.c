@@ -17,7 +17,9 @@ FITNESS_DATA data[100];
 int buffer_size = 100;
 float mean = 0;
 int u = 0;
-int w=0;
+int w = 0;
+int t = 0;
+char lowest[1000];
 
 // This is your helper function. Do not change it in any way.
 // Inputs: character array representing a row; the delimiter character
@@ -114,38 +116,24 @@ int main() {
 
         case 'C':
         case 'c':
-            int lowest=0;
-            while(fgets(line, 100, input)) {
-                tokeniseRecord(line, ",", data.date, data.times, stringsteps);
-                w += 1;
+            data;
 
-                bit.steps = atoi(stringsteps); 
-                strcpy(bit.time, data.time);
-                strcpy(bit.date, data.date);
-                if (w==1) {
-                    lowest=bit.steps;
+            counter = 0;
+            while (fgets(line, buffer_size, input))
+            {
+                // split up the line and store it in the right place
+               // using the & operator to pass in a pointer to the bloodIron so it stores it
+                tokeniseRecord(line, ",", data[counter].date, data[counter].time, stringsteps);
+                if (lowest > data[counter].steps)
+                {
+                    lowest = data[counter].date;
                 }
-                if (bit.steps<lowest) {
-                    
-                    lowest=bit.steps;
-                    t = w;
-                }
+                counter++;
             }
-            fclose(fptr);
-
-            fptr = fopen(filename, "r");
-            while(fgets(myString, 100, fptr)) {
-                u+=1;
-                tokeniseRecord(myString, ",", datez, timez, stepz);
-                if (u==t) {
-                    printf("Fewest steps: %s %s\n", datez, timez);
-                }
-            }
-
-
-
-            fclose(fptr);
+            printf("Your lowest blood iron was %.2s\n", lowest);
+            fclose(input);
             break;
+
 
         case 'D':
         case 'd':
