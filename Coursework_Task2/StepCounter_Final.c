@@ -20,6 +20,8 @@ int u = 0;
 int w = 0;
 int t = 0;
 char lowest[1000];
+char datez[10];
+char timez[10];
 
 // This is your helper function. Do not change it in any way.
 // Inputs: character array representing a row; the delimiter character
@@ -116,24 +118,33 @@ int main() {
 
         case 'C':
         case 'c':
-            data;
+            u = 0;
+            w = 0;
+            lowest=0;
+            while(fgets(line, 100, input)) {
+                tokeniseRecord(line, ",", datez, timez, stringsteps);
+                w += 1;
 
-            counter = 0;
-            while (fgets(line, buffer_size, input))
-            {
-                // split up the line and store it in the right place
-               // using the & operator to pass in a pointer to the bloodIron so it stores it
-                tokeniseRecord(line, ",", data[counter].date, data[counter].time, stringsteps);
-                if (lowest > data[counter].steps)
-                {
-                    lowest = data[counter].date;
+                data.steps = atoi(stepz); 
+                strcpy(data.time, timez);
+                strcpy(data.date, datez);
+                if (w==1) {
+                    lowest=data.steps;
                 }
-                counter++;
+                if (data.steps<lowest) {
+                    
+                    lowest= data.steps;
+                    t = w;
+                    
+                }
             }
-            printf("Your lowest blood iron was %.2s\n", lowest);
-            fclose(input);
-            break;
-
+            while(fgets(line, 100, input)) {
+                u += 1;
+                tokeniseRecord(line, ",", datez, timez, stringsteps);
+                if (u==t) {
+                    printf("Fewest steps: %s %s\n", datez, timez);
+                }
+            }
 
         case 'D':
         case 'd':
@@ -142,21 +153,21 @@ int main() {
 
         case 'E':
         case 'e':
-            mean = 0;
-            counter = 0;
+            // mean = 0;
+            // counter = 0;
 
-            while (fgets(line, buffer_size, input) != NULL)
-            {
-                FITNESS_DATA data;
+            // while (fgets(line, buffer_size, input) != NULL)
+            // {
+            //     FITNESS_DATA data;
 
-                tokeniseRecord(line, ",", data.date, data.time, stringsteps);
-                mean += atoi(stringsteps);
-                counter ++;
-            }
+            //     tokeniseRecord(line, ",", data.date, data.time, stringsteps);
+            //     mean += atoi(stringsteps);
+            //     counter ++;
+            // }
 
-            mean = mean/counter;
-            printf("Mean step count: %.0f\n", mean);
-            break;
+            // mean = mean/counter;
+            // printf("Mean step count: %.0f\n", mean);
+            // break;
 
         case 'F':
         case 'f':
