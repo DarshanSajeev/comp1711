@@ -1,27 +1,28 @@
-//FitnessData_2023.csv
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "FitnessDataStruct.h"
 #include <math.h>
+#include "FitnessDataStruct.h"
 
 // Struct moved to header file
 
 // Define any additional variables here
 // Global variables for filename and FITNESS_DATA array
-char choice;
-int counter = 0;
-char stringsteps[10];
-FITNESS_DATA data[100];
+FITNESS_DATA data[1000];
 int buffer_size = 100;
-float mean = 0;
-int u = 0;
-int w = 0;
-int t = 0;
-char lowest[1000];
-char datez[10];
-char timez[10];
+char user_input;
+int counter = 0;
+int lowest = 0;
+int highest = 0;
+double mean = 0.0;
+int start = -1;
+int end = -1;
+int currentStart = -1;
+FILE *input = NULL; // File pointer is initialized to NULL
+int i;
+char date[11];
+char time[6]; 
+char steps[10];
 
 // This is your helper function. Do not change it in any way.
 // Inputs: character array representing a row; the delimiter character
@@ -51,142 +52,156 @@ void tokeniseRecord(const char *input, const char *delimiter,
 
 }
 
-
 // Complete the main function
 int main() {
 
-    while (1)
-    {
-
-        printf("A: Specify the filename to be imported\n");
+    while (1) {
+        printf("A: Specify the filename to be imported - you need to check that the file opened correctly.\n");
         printf("B: Display the total number of records in the file\n");
-        printf("C: Find the date and time of the timeslot with the fewest steps\n");
-        printf("D: Find the data and time of the timeslot with the largest number of steps\n");
-        printf("E: Find the mean step count of all the records in the file\n");
-        printf("F: Find the longest continuous period where the step count is above 500 steps\n");
-        printf("Q: Exit the program\n");
+        printf("C: Find the date and time of the timeslot with the fewest steps\n");                     
+        printf("D: Find the date and time of the timeslot with the largest number of steps\n");                    
+        printf("E: Find the mean step count of all the records in the file\n");       
+        printf("F: Find the longest continuous period where the step count is above 500 steps\n");                   
+        printf("Q: Exit\n");
 
-        // get the next character typed in and store in the 'choice'
-        printf("\nEnter an option: ");
-        choice = getchar();
-
-        // this gets rid of the newline character which the user will enter
-        // as otherwise this will stay in the sdin and be read next time
+        user_input = getchar();
         while (getchar() != '\n');
-
+        
         char line[buffer_size];
         char filename[buffer_size];
+
+        switch (user_input) {
+            case 'A':
+            case 'a':
+                if (input != NULL) {
+                    fclose(input);
+                }
+
+                printf("Input filename: ");
+                fgets(line, buffer_size, stdin);
+                sscanf(line, " %s ", filename);
+
+                input = fopen(filename, "r");
+                if (!input) {
+                    printf("Error: File could not be opened\n");
+                    return 1;
+                }
+                // Reset the counter when a new file is opened
+                counter = 0;
+                while (fgets(line, buffer_size, input) != NULL) {
+                    tokeniseRecord(line, ",", date, time, steps);
+                    strncpy(data[counter].date, date, sizeof(data[counter].date));
+                    strncpy(data[counter].time, time, sizeof(data[counter].time));
+                    data[counter].steps = atoi(steps);
+                    counter++;
+                }
+                break;
+
+            case 'B':
+            case 'b':
+
+                printf("Total records: %i\n", counter);
+
+                break;
         
-        // switch statement to control the menu.
-        switch (choice)
-        {
-        // this allows for either capital or lower case
-        case 'A':
-        case 'a':
+            case 'C':
+            case 'c':
+                if (counter > 0) 
+                {   
 
-            // get filename from the user
-            printf("Please enter the name of the data file: ");
+                    for (i = 1; i < counter; i++) 
+                    {
 
-            // these lines read in a line from the stdin (where the user types)
-            // and then takes the actual string out of it
-            // this removes any spaces or newlines.
-            fgets(line, buffer_size, stdin);
-            sscanf(line, " %s ", filename);
+                        if (data[i].steps < data[lowest].steps) 
+                        {
 
-            FILE *input = fopen(filename, "r");
-            if (!input)
-            {
-                printf("Error: File could not be opened\n");
-                return 1;
-            }
-            else{
-                printf("File successfully loaded.\n");
-            }
-            break;
+                            lowest = i;
 
-        case 'B':
-        case 'b':
-            counter = 0;
-        
-            while (fgets(line, buffer_size, input) != NULL)
-            {
-                counter ++;
-            }
+                        }
+                    }
 
-            printf("Number of records in file: %d\n",counter);
-            break;
+                    printf("Fewest steps: %s %s\n", data[lowest].date, data[lowest].time);
+                } 
+                break;
 
-        case 'C':
-        case 'c':
-            u = 0;
-            w = 0;
-            lowest=0;
-            while(fgets(line, 100, input)) {
-                tokeniseRecord(line, ",", datez, timez, stringsteps);
-                w += 1;
-
-                data.steps = atoi(stepz); 
-                strcpy(data.time, timez);
-                strcpy(data.date, datez);
-                if (w==1) {
-                    lowest=data.steps;
-                }
-                if (data.steps<lowest) {
+            case 'D':
+            case 'd':
+                if (counter > 0) 
+                {
                     
-                    lowest= data.steps;
-                    t = w;
-                    
+                    for (i = 1; i < counter; i++) 
+                    {
+
+                        if (data[i].steps > data[highest].steps) 
+                        {
+                            highest = i;
+                        }
+                    }
+                    printf("Largest steps: %s %s\n", data[highest].date, data[highest].time);
+                } 
+                break;
+
+            case 'E':
+            case 'e':
+                if (counter > 0) {
+                    for (int i = 0; i < counter; i++) {
+                        mean += data[i].steps;
+                    }
+                    mean = mean / counter;
+
+                    // Check for fractional part
+                    int rounded = (mean - (int)mean) > 0 ? (int)mean + 1 : (int)mean;
+
+                    printf("Mean step count: %d\n", rounded);
                 }
-            }
-            while(fgets(line, 100, input)) {
-                u += 1;
-                tokeniseRecord(line, ",", datez, timez, stringsteps);
-                if (u==t) {
-                    printf("Fewest steps: %s %s\n", datez, timez);
+
+                break;
+
+
+            case 'F':
+            case 'f':
+                if (counter > 0) {
+
+                    for (i = 0; i < counter; i++) {
+                        if (data[i].steps > 500) {
+                            if (currentStart == -1) {
+                                currentStart = i;
+                            }
+                        } else {
+                            if (currentStart != -1) {
+                                // Check if the current period is longer than the longest recorded
+                                if ((start == -1) || (i - currentStart > end - start)) {
+                                    start = currentStart;
+                                    end = i;
+                                }
+                                currentStart = -1;
+                            }
+                        }
+                    }
+
+                    // Check if the last period is longer than the longest recorded
+                    if ((currentStart != -1) && (counter - currentStart > end - start)) {
+                        start = currentStart;
+                        end = counter;
+                    }
+
+                    if (start != -1) {
+                        printf("Longest period start: %s %s\n", data[start].date, data[start].time);
+                        printf("Longest period end: %s %s\n", data[end - 1].date, data[end - 1].time);
+                    } 
                 }
-            }
+                break;
 
-        case 'D':
-        case 'd':
+
+            case 'Q':
+            case 'q':
+                return 0;
+                break;
             
-            break;
-
-        case 'E':
-        case 'e':
-            // mean = 0;
-            // counter = 0;
-
-            // while (fgets(line, buffer_size, input) != NULL)
-            // {
-            //     FITNESS_DATA data;
-
-            //     tokeniseRecord(line, ",", data.date, data.time, stringsteps);
-            //     mean += atoi(stringsteps);
-            //     counter ++;
-            // }
-
-            // mean = mean/counter;
-            // printf("Mean step count: %.0f\n", mean);
-            // break;
-
-        case 'F':
-        case 'f':
-            
-            break;
-
-        case 'G':
-        case 'g':
-            break;
-
-        case 'Q':
-        case 'q':
-            return 0;
-            break;
-
-        // if they type anything else:
-        default:
-            printf("Invalid choice. Try again.\n");
-            break;
+            default:
+                printf("Invalid choice\n");
+                break;
         }
     }
+    return 0;
 }
